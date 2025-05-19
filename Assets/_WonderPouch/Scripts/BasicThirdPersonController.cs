@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class BasicThirdPersonController : MonoBehaviour
@@ -11,13 +12,17 @@ public class BasicThirdPersonController : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
 
     [Header("Camera")]
-    [SerializeField] private Transform _cameraTarget;
+    [SerializeField] private CinemachineCamera _cinemachineCamera;
     [SerializeField] private float _lookSensitivity = 1f;
+    [SerializeField] private float _minVerticalAngle = -30f;
+    [SerializeField] private float _maxVerticalAngle = 70f;
 
     private Rigidbody _rigidbody;
-    private Vector2 _moveInput;
+    private Vector2 _moveInputNormalized;
     private Vector2 _lookInput;
     private bool _isGrounded;
+    private float _cinemachineTargetYaw;
+    private float _cinemachineTargetPitch;
 
     private void Awake()
     {
@@ -29,18 +34,18 @@ public class BasicThirdPersonController : MonoBehaviour
     private void Update()
     {
         CheckIsGrounded();
-        HandleRotation();
-        HandleCameraLook();
+        MoveAndRotate();
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
-        Move();
+        RotateCamera();
+
     }
 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
-        _moveInput = context.ReadValue<Vector2>();
+        _moveInputNormalized = context.ReadValue<Vector2>().normalized;
     }
 
     public void OnLookInput(InputAction.CallbackContext context)
@@ -58,39 +63,46 @@ public class BasicThirdPersonController : MonoBehaviour
         );
     }
 
-    private void Move()
+    private void MoveAndRotate()
     {
-        Vector3 moveDirection = new Vector3(_moveInput.x, 0f, _moveInput.y).normalized;
-        moveDirection = _cameraTarget.TransformDirection(moveDirection);
-        moveDirection.y = 0f;
+        if (_moveInputNormalized == Vector2.zero)
+        {
+            _rigidbody.linearVelocity = Vector3.zero;
+            return;
+        }
 
-        Vector3 targetVelocity = moveDirection * _moveSpeed;
-        _rigidbody.linearVelocity = new Vector3(
-            targetVelocity.x,
-            _rigidbody.linearVelocity.y,
-            targetVelocity.z
+        Transform cameraTransform = _cinemachineCamera.transform;
+
+        float targetRotationAngles = 0;
+        targetRotationAngles =
+            Mathf.Atan2(_moveInputNormalized.x, _moveInputNormalized.y) *
+            Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
+
+        transform.rotation = Quaternion.Euler(0f, targetRotationAngles, 0f);
+
+        Vector3 moveDirection = Quaternion.Euler(0f, targetRotationAngles, 0f) * Vector3.forward;
+        _rigidbody.linearVelocity = moveDirection.normalized * _moveSpeed;
+        Debug.Log($"{_moveInputNormalized} .. {_rigidbody.linearVelocity}");
+
+    }
+
+    private void RotateCamera()
+    {
+        if (_lookInput.magnitude >= 0.1f)
+        {
+            _cinemachineTargetYaw += _lookInput.x * Time.deltaTime;
+            _cinemachineTargetPitch += _lookInput.y * Time.deltaTime;
+        }
+
+        _cinemachineTargetYaw += _lookInput.x * _lookSensitivity;
+        _cinemachineTargetPitch -= _lookInput.y * _lookSensitivity;
+        _cinemachineTargetPitch = Mathf.Clamp(_cinemachineTargetPitch, _minVerticalAngle, _maxVerticalAngle);
+
+        Transform cameraTarget = _cinemachineCamera.Follow;
+        cameraTarget.rotation = Quaternion.Euler(
+            _cinemachineTargetPitch,
+            _cinemachineTargetYaw,
+            0f
         );
-    }
-
-    private void HandleRotation()
-    {
-        if (_moveInput.magnitude > 0.1f)
-        {
-            float targetAngle = Mathf.Atan2(_moveInput.x, _moveInput.y) * Mathf.Rad2Deg + _cameraTarget.eulerAngles.y;
-            Quaternion targetRotation = Quaternion.Euler(0f, targetAngle, 0f);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                _rotationSpeed * Time.deltaTime
-            );
-        }
-    }
-
-    private void HandleCameraLook()
-    {
-        if (_lookInput.magnitude > 0.1f)
-        {
-            _cameraTarget.Rotate(Vector3.up, _lookInput.x * _lookSensitivity);
-        }
     }
 }
