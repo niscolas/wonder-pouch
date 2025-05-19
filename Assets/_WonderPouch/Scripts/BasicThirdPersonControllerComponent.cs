@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using Unity.Cinemachine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class BasicThirdPersonController : MonoBehaviour
+public class BasicThirdPersonControllerComponent : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float _moveSpeed = 5f;

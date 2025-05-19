@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BasicKenneyCharacterAnimation : MonoBehaviour
+public class BasicKenneyCharacterAnimationComponent : MonoBehaviour
 {
     [SerializeField] private float _movementThreshold = 0.1f;
 
