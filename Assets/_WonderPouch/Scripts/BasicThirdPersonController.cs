@@ -35,12 +35,7 @@ public class BasicThirdPersonController : MonoBehaviour
     {
         CheckIsGrounded();
         MoveAndRotate();
-    }
-
-    private void LateUpdate()
-    {
         RotateCamera();
-
     }
 
     public void OnMoveInput(InputAction.CallbackContext context)
