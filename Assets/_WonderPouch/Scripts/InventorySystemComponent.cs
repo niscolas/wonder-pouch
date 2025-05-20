@@ -29,13 +29,18 @@ public class InventorySystemComponent : MonoBehaviour
 
     private static string InventorySaveKey = "Inventory";
 
+    public event Action<int, InventoryItem> SlotUpdated;
+
+    public InventoryItem[] Slots { get => _slots; }
+
     private InventoryItem[] _slots;
 
     private void Awake()
     {
+        _slots = new InventoryItem[_size];
         if (_inventoryPanel)
         {
-            _inventoryPanel.Setup(this);
+            _inventoryPanel.Setup(this, _size);
         }
     }
 
@@ -45,21 +50,27 @@ public class InventorySystemComponent : MonoBehaviour
         {
             for (int i = 0; i < _slots.Length; i++)
             {
-                if (CheckCanSlotStackWith(i, newItem))
+                if (!CheckCanSlotStackWith(i, newItem))
                 {
-                    _slots[i].currentStack += newItem.currentStack;
-                    return true;
+                    continue;
                 }
+
+                _slots[i].currentStack += newItem.currentStack;
+                NotifySlotUpdated(i);
+                return true;
             }
         }
 
         for (int i = 0; i < _slots.Length; i++)
         {
-            if (CheckIsEmptySlot(i))
+            if (!CheckIsEmptySlot(i))
             {
-                _slots[i] = newItem;
-                return true;
+                continue;
             }
+
+            _slots[i] = newItem;
+            NotifySlotUpdated(i);
+            return true;
         }
 
         Debug.LogWarning("Inventory is full!");
@@ -76,12 +87,14 @@ public class InventorySystemComponent : MonoBehaviour
         if (!CheckIsEmptySlot(slotIndex))
         {
             MakeSlotEmpty(slotIndex);
+            NotifySlotUpdated(slotIndex);
         }
     }
 
     public void MoveItem(int fromSlotIndex, int toSlotIndex)
     {
-        if (!CheckIsValidSlotIndex(fromSlotIndex) || !CheckIsValidSlotIndex(toSlotIndex))
+        if (!CheckIsValidSlotIndex(fromSlotIndex) || !CheckIsValidSlotIndex(toSlotIndex) ||
+            (CheckIsEmptySlot(fromSlotIndex) && CheckIsEmptySlot(toSlotIndex)))
         {
             return;
         }
@@ -100,13 +113,9 @@ public class InventorySystemComponent : MonoBehaviour
         {
             SwapItems(fromSlotIndex, toSlotIndex);
         }
-    }
 
-    public void SwapItems(int slotIndexA, int slotIndexB)
-    {
-        InventoryItem temp = _slots[slotIndexA];
-        _slots[slotIndexA] = _slots[slotIndexB];
-        _slots[slotIndexB] = temp;
+        NotifySlotUpdated(fromSlotIndex);
+        NotifySlotUpdated(toSlotIndex);
     }
 
     public void ConsumeOrEquipItem(int slotIndex)
@@ -128,6 +137,8 @@ public class InventorySystemComponent : MonoBehaviour
             ReduceStack(slotIndex);
             Debug.Log($"Equipped {item.definition.ItemName}");
         }
+
+        NotifySlotUpdated(slotIndex);
     }
 
     public bool CheckIsStackable(InventoryItem item)
@@ -168,13 +179,20 @@ public class InventorySystemComponent : MonoBehaviour
 
     private bool CheckIsValidSlotIndex(int index)
     {
-        return index >= 0 && index < _slots.Length;
+        return _slots.CheckIsValidIndex(index);
     }
 
     private void MakeSlotEmpty(int index)
     {
         _slots[index].definition = null;
         _slots[index].currentStack = 0;
+    }
+
+    private void SwapItems(int slotIndexA, int slotIndexB)
+    {
+        InventoryItem temp = _slots[slotIndexA];
+        _slots[slotIndexA] = _slots[slotIndexB];
+        _slots[slotIndexB] = temp;
     }
 
     private void ReduceStack(int slotIndex, int reduceAmount = 1)
@@ -189,5 +207,10 @@ public class InventorySystemComponent : MonoBehaviour
         {
             MakeSlotEmpty(slotIndex);
         }
+    }
+
+    private void NotifySlotUpdated(int index)
+    {
+        SlotUpdated?.Invoke(index, _slots[index]);
     }
 }

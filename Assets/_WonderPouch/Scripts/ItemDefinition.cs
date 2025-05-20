@@ -17,6 +17,7 @@ public class ItemDefinition : ScriptableObject
     [SerializeField] private bool _isConsumable;
 
     public string ItemName { get => _itemName; }
+    public Sprite Icon { get => _icon; }
     public int MaxStack { get => _maxStack; }
     public bool IsConsumable { get => _isConsumable; }
     public bool IsEquippable { get => _isEquippable; }
