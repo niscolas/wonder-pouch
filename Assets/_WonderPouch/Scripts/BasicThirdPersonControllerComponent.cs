@@ -28,7 +28,7 @@ public class BasicThirdPersonControllerComponent : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.freezeRotation = true;
-        Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()

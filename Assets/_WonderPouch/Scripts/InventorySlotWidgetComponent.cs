@@ -19,16 +19,25 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
     [SerializeField] private int _slotIndex;
 
     private InventoryPanelComponent _inventoryPanel;
+    private Transform _iconImageInitialParent;
 
     public void Setup(InventoryPanelComponent inventoryPanel, int slotIndex)
     {
         _slotIndex = slotIndex;
         _inventoryPanel = inventoryPanel;
+
         _iconImage.raycastTarget = false;
+        _iconImageInitialParent = _iconImage.transform.parent;
     }
 
     public void SetItem(InventoryItem item)
     {
+        if (!item.definition)
+        {
+            ClearSlot();
+            return;
+        }
+
         _iconImage.sprite = item.definition.Icon;
         _iconImage.enabled = true;
 
@@ -62,7 +71,7 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        _iconImage.transform.SetAsLastSibling();
+        _iconImage.transform.SetParent(_inventoryPanel.transform);
         _iconImage.color = new Color(1, 1, 1, 0.5f);
     }
 
@@ -92,6 +101,7 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
                 _slotIndex,
                 targetSlotIndex);
 
+        _iconImage.transform.SetParent(_iconImageInitialParent);
         _iconImage.transform.localPosition = Vector3.zero;
         _iconImage.color = Color.white;
     }

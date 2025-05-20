@@ -4,20 +4,27 @@ public class InventoryPanelComponent : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private InventorySlotWidgetComponent _slotWidgetPrefab;
+    [SerializeField] private Transform _slotWidgetsParent;
 
     private InventorySlotWidgetComponent[] _slotWidgets;
     private InventorySystemComponent _inventorySystem;
 
     public void Setup(InventorySystemComponent inventorySystem, int slotCount)
     {
-        if (!_inventorySystem)
+        if (!inventorySystem)
         {
             return;
         }
 
+        if (!_slotWidgetsParent)
+        {
+            _slotWidgetsParent = transform;
+        }
+
         _inventorySystem = inventorySystem;
-        _slotWidgets = new InventorySlotWidgetComponent[slotCount];
         _inventorySystem.SlotUpdated += OnSlotUpdated;
+
+        CreateSlots(slotCount);
     }
 
     private void OnDestroy()
@@ -62,9 +69,10 @@ public class InventoryPanelComponent : MonoBehaviour
             return;
         }
 
+        _slotWidgets = new InventorySlotWidgetComponent[slotCount];
         for (int i = 0; i < slotCount; i++)
         {
-            _slotWidgets[i] = Instantiate(_slotWidgetPrefab, transform);
+            _slotWidgets[i] = Instantiate(_slotWidgetPrefab, _slotWidgetsParent);
             _slotWidgets[i].Setup(this, i);
             _slotWidgets[i].SetItem(_inventorySystem.Slots[i]);
         }
@@ -84,5 +92,4 @@ public class InventoryPanelComponent : MonoBehaviour
     {
         return _slotWidgets.CheckIsValidIndex(index);
     }
-
 }
