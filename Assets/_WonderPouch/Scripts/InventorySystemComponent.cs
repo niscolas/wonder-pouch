@@ -1,16 +1,193 @@
+using System;
 using UnityEngine;
+
+[Serializable]
+public struct InventoryItem
+{
+    public ItemDefinition definition;
+    public int currentStack;
+}
+
+[Serializable]
+public struct InventorySaveData
+{
+    public InventoryItem[] Slots { get; private set; }
+
+    public InventorySaveData(InventoryItem[] slots)
+    {
+        Slots = slots;
+    }
+}
 
 public class InventorySystemComponent : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
+    [Header("Settings")]
+    [SerializeField] private int _size;
 
+    [Header("References")]
+    [SerializeField] private InventoryPanelComponent _inventoryPanel;
+
+    private static string InventorySaveKey = "Inventory";
+
+    private InventoryItem[] _slots;
+
+    private void Awake()
+    {
+        if (_inventoryPanel)
+        {
+            _inventoryPanel.Setup(this);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool AddItem(InventoryItem newItem)
     {
+        if (CheckIsStackable(newItem))
+        {
+            for (int i = 0; i < _slots.Length; i++)
+            {
+                if (CheckCanSlotStackWith(i, newItem))
+                {
+                    _slots[i].currentStack += newItem.currentStack;
+                    return true;
+                }
+            }
+        }
 
+        for (int i = 0; i < _slots.Length; i++)
+        {
+            if (CheckIsEmptySlot(i))
+            {
+                _slots[i] = newItem;
+                return true;
+            }
+        }
+
+        Debug.LogWarning("Inventory is full!");
+        return false;
+    }
+
+    public void RemoveItemAt(int slotIndex)
+    {
+        if (!CheckIsValidSlotIndex(slotIndex))
+        {
+            return;
+        }
+
+        if (!CheckIsEmptySlot(slotIndex))
+        {
+            MakeSlotEmpty(slotIndex);
+        }
+    }
+
+    public void MoveItem(int fromSlotIndex, int toSlotIndex)
+    {
+        if (!CheckIsValidSlotIndex(fromSlotIndex) || !CheckIsValidSlotIndex(toSlotIndex))
+        {
+            return;
+        }
+
+        if (CheckIsEmptySlot(toSlotIndex))
+        {
+            _slots[toSlotIndex] = _slots[fromSlotIndex];
+            MakeSlotEmpty(fromSlotIndex);
+        }
+        else if (CheckCanSlotStackWith(toSlotIndex, _slots[fromSlotIndex]))
+        {
+            _slots[toSlotIndex].currentStack += _slots[fromSlotIndex].currentStack;
+            MakeSlotEmpty(fromSlotIndex);
+        }
+        else
+        {
+            SwapItems(fromSlotIndex, toSlotIndex);
+        }
+    }
+
+    public void SwapItems(int slotIndexA, int slotIndexB)
+    {
+        InventoryItem temp = _slots[slotIndexA];
+        _slots[slotIndexA] = _slots[slotIndexB];
+        _slots[slotIndexB] = temp;
+    }
+
+    public void ConsumeOrEquipItem(int slotIndex)
+    {
+        if (!CheckIsValidSlotIndex(slotIndex) || CheckIsEmptySlot(slotIndex))
+        {
+            return;
+        }
+
+        InventoryItem item = _slots[slotIndex];
+
+        if (item.definition.IsConsumable)
+        {
+            ReduceStack(slotIndex);
+            Debug.Log($"Used {item.definition.ItemName}");
+        }
+        else if (item.definition.IsEquippable)
+        {
+            ReduceStack(slotIndex);
+            Debug.Log($"Equipped {item.definition.ItemName}");
+        }
+    }
+
+    public bool CheckIsStackable(InventoryItem item)
+    {
+        return item.definition.MaxStack > 1;
+    }
+
+    public bool CheckIsEmptySlot(int index)
+    {
+        return _slots[index].definition == null && _slots[index].currentStack == 0;
+    }
+
+    public void SaveInventory()
+    {
+        InventorySaveData data = new InventorySaveData(_slots);
+        string jsonData = JsonUtility.ToJson(data);
+        PlayerPrefs.SetString(InventorySaveKey, jsonData);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadInventory()
+    {
+        if (!PlayerPrefs.HasKey(InventorySaveKey))
+        {
+            return;
+        }
+
+        string jsonData = PlayerPrefs.GetString(InventorySaveKey);
+        InventorySaveData data = JsonUtility.FromJson<InventorySaveData>(jsonData);
+        _slots = data.Slots;
+    }
+
+    private bool CheckCanSlotStackWith(int index, InventoryItem item)
+    {
+        return _slots[index].definition == item.definition &&
+               _slots[index].currentStack + item.currentStack <= _slots[index].definition.MaxStack;
+    }
+
+    private bool CheckIsValidSlotIndex(int index)
+    {
+        return index >= 0 && index < _slots.Length;
+    }
+
+    private void MakeSlotEmpty(int index)
+    {
+        _slots[index].definition = null;
+        _slots[index].currentStack = 0;
+    }
+
+    private void ReduceStack(int slotIndex, int reduceAmount = 1)
+    {
+        if (!CheckIsValidSlotIndex(slotIndex) || CheckIsEmptySlot(slotIndex))
+        {
+            return;
+        }
+
+        _slots[slotIndex].currentStack -= reduceAmount;
+        if (_slots[slotIndex].currentStack <= 0)
+        {
+            MakeSlotEmpty(slotIndex);
+        }
     }
 }
