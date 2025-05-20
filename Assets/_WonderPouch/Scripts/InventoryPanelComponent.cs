@@ -1,18 +1,25 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InventoryPanelComponent : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private GameObject _visualRoot;
     [SerializeField] private InventorySlotWidgetComponent _slotWidgetPrefab;
     [SerializeField] private ItemTooltipComponent _tooltip;
     [SerializeField] private Transform _inventorySlotWidgetsParent;
     [SerializeField] private Transform _equipmentSlotWidgetsParent;
 
+    [Header("Events")]
+    [SerializeField] private UnityEvent _onShowPre;
+    [SerializeField] private UnityEvent _onHidePost;
+
     [Header("Debug")]
     [SerializeField] private InventorySlotWidgetComponent[] _inventorySlotWidgets;
     [SerializeField] private InventorySlotWidgetComponent[] _equipmentSlotWidgets;
 
+    public bool IsVisible => _visualRoot.gameObject.activeSelf;
     private InventorySystemComponent _inventorySystem;
 
     public void Setup(
@@ -23,6 +30,11 @@ public class InventoryPanelComponent : MonoBehaviour
         if (!inventorySystem)
         {
             return;
+        }
+
+        if (!_visualRoot)
+        {
+            _visualRoot = gameObject;
         }
 
         if (!_inventorySlotWidgetsParent)
@@ -44,6 +56,32 @@ public class InventoryPanelComponent : MonoBehaviour
             _inventorySystem.InventorySlotUpdated -= OnInventorySlotUpdated;
             _inventorySystem.EquipmentSlotUpdated -= OnEquipmentSlotUpdated;
         }
+    }
+
+    public bool Toggle()
+    {
+        if (IsVisible)
+        {
+            Hide();
+        }
+        else
+        {
+            Show();
+        }
+
+        return IsVisible;
+    }
+
+    public void Show()
+    {
+        _onShowPre?.Invoke();
+        _visualRoot.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        _visualRoot.SetActive(false);
+        _onHidePost?.Invoke();
     }
 
     public void EndDragItem(

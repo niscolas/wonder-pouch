@@ -371,6 +371,7 @@ GameObject:
   - component: {fileID: 8359795768092636324}
   - component: {fileID: 8816055161820355117}
   - component: {fileID: 4424765539660422724}
+  - component: {fileID: 6936027691887838461}
   m_Layer: 0
   m_Name: P_Player
   m_TagString: Untagged
@@ -548,6 +549,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 198c643f-2c7d-4549-aa55-8ae553809df9
     m_ActionName: 'NpcTalk/AdvanceDialog[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6936027691887838461}
+        m_TargetAssemblyTypeName: InventoryOpenerComponent, Assembly-CSharp
+        m_MethodName: Toggle
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: aa465092-3fae-4c19-9a24-e5e7feee4016
+    m_ActionName: 'Player/ToggleInventory[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -616,6 +633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemPicker: {fileID: 0}
+  _inventoryOpener: {fileID: 0}
 --- !u!114 &1825314972125071386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -731,6 +749,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _defaultActionMap: Player
   _npcTalkActionMap: NpcTalk
+--- !u!114 &6936027691887838461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662788833628635395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7945b8fcdb3a6abb1bb92a5ef26565a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6546913722555339550
 GameObject:
   m_ObjectHideFlags: 0

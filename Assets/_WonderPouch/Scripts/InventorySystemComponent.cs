@@ -84,12 +84,18 @@ public class InventorySystemComponent : MonoBehaviour
         {
             _inventoryPanel.Setup(
                     this, _inventorySize, _equipmentSlotTypes);
+            _inventoryPanel.Hide();
         }
     }
 
     private void OnDestroy()
     {
         SaveData();
+    }
+
+    public bool ToggleVisibility()
+    {
+        return _inventoryPanel.Toggle();
     }
 
     public bool AddItem(InventoryItem newItem)
