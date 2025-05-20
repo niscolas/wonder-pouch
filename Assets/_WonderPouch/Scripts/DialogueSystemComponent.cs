@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-public class DialogueSystem : MonoBehaviour
+public class DialogueSystemComponent : MonoBehaviour
 {
-    [SerializeField] private DialoguePanel _dialoguePanel;
+    [SerializeField] private DialoguePanelComponent _dialoguePanel;
 
     public event Action<string> DialogueStarted;
     public event Action<string> DialogueAdvanced;

@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class NpcSystem : MonoBehaviour
+public class NpcSystemComponent : MonoBehaviour
 {
-    [SerializeField] private DialogueSystem _dialogueSystem;
+    [SerializeField] private DialogueSystemComponent _dialogueSystem;
 
     private void Awake()
     {

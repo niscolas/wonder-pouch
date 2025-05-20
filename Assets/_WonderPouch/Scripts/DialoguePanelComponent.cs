@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class DialoguePanel : MonoBehaviour
+public class DialoguePanelComponent : MonoBehaviour
 {
     [SerializeField] private TMP_Text _dialogueText;
 
@@ -10,9 +10,9 @@ public class DialoguePanel : MonoBehaviour
     [SerializeField] private UnityEvent _onDialogueStartedUnityEventPre;
     [SerializeField] private UnityEvent _onDialogueEndedUnityEventPost;
 
-    private DialogueSystem _dialogueSystem;
+    private DialogueSystemComponent _dialogueSystem;
 
-    public void Setup(DialogueSystem dialogueSystem)
+    public void Setup(DialogueSystemComponent dialogueSystem)
     {
         if (!dialogueSystem)
         {

@@ -4,9 +4,9 @@ public class TalkableNpcComponent : MonoBehaviour
 {
     [SerializeField] private string[] _dialogueLines;
 
-    private DialogueSystem _dialogueSystem;
+    private DialogueSystemComponent _dialogueSystem;
 
-    public void Setup(DialogueSystem dialogueSystem)
+    public void Setup(DialogueSystemComponent dialogueSystem)
     {
         _dialogueSystem = dialogueSystem;
     }
