@@ -22,7 +22,7 @@ public class ItemPickerComponent : MonoBehaviour, InteractionHandler
 
     private void OnTriggerExit(Collider other)
     {
-        if (other == null || other.gameObject != _nearestPickableItem.gameObject)
+        if (!other || !_nearestPickableItem || other.gameObject != _nearestPickableItem.gameObject)
         {
             return;
         }

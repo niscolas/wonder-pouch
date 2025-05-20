@@ -21,7 +21,7 @@ public class NpcTalkerComponent : MonoBehaviour, InteractionHandler
 
     private void OnTriggerExit(Collider other)
     {
-        if (other == null || other.gameObject != _nearestTalkableNpc.gameObject)
+        if (!other || !_nearestTalkableNpc || other.gameObject != _nearestTalkableNpc.gameObject)
         {
             return;
         }
