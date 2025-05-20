@@ -11,11 +11,13 @@ public struct InventoryItem
 [Serializable]
 public struct InventorySaveData
 {
-    public InventoryItem[] Slots { get; private set; }
+    [SerializeField] private InventoryItem[] _slots;
+
+    public InventoryItem[] Slots => _slots;
 
     public InventorySaveData(InventoryItem[] slots)
     {
-        Slots = slots;
+        _slots = slots;
     }
 }
 
@@ -37,11 +39,20 @@ public class InventorySystemComponent : MonoBehaviour
 
     private void Awake()
     {
-        _slots = new InventoryItem[_size];
+        if (!LoadInventory() || _slots.IsNullOrEmpty())
+        {
+            _slots = new InventoryItem[_size];
+        }
+
         if (_inventoryPanel)
         {
             _inventoryPanel.Setup(this, _size);
         }
+    }
+
+    private void OnDestroy()
+    {
+        SaveInventory();
     }
 
     public bool AddItem(InventoryItem newItem)
@@ -159,16 +170,18 @@ public class InventorySystemComponent : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    public void LoadInventory()
+    public bool LoadInventory()
     {
         if (!PlayerPrefs.HasKey(InventorySaveKey))
         {
-            return;
+            return false;
         }
 
         string jsonData = PlayerPrefs.GetString(InventorySaveKey);
         InventorySaveData data = JsonUtility.FromJson<InventorySaveData>(jsonData);
         _slots = data.Slots;
+
+        return true;
     }
 
     private bool CheckCanSlotStackWith(int index, InventoryItem item)
