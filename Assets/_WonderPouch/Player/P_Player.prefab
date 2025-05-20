@@ -647,12 +647,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 5
-  _rotationSpeed: 3
+  _rotationSpeed: 10
   _groundCheckDistance: 0.2
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  _cinemachineCamera: {fileID: 0}
   _lookSensitivity: 1
   _minVerticalAngle: -30
   _maxVerticalAngle: 70

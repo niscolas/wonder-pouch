@@ -12,7 +12,6 @@ public class BasicThirdPersonControllerComponent : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
 
     [Header("Camera")]
-    [SerializeField] private CinemachineCamera _cinemachineCamera;
     [SerializeField] private float _lookSensitivity = 1f;
     [SerializeField] private float _minVerticalAngle = -30f;
     [SerializeField] private float _maxVerticalAngle = 70f;
@@ -23,19 +22,22 @@ public class BasicThirdPersonControllerComponent : MonoBehaviour
     private bool _isGrounded;
     private float _cinemachineTargetYaw;
     private float _cinemachineTargetPitch;
+    private Transform _cameraTransform;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.freezeRotation = true;
+
+        _cameraTransform = Camera.main.transform;
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         CheckIsGrounded();
         MoveAndRotate();
-        RotateCamera();
     }
 
     public void HandleMoveInput(InputAction.CallbackContext context)
@@ -66,37 +68,17 @@ public class BasicThirdPersonControllerComponent : MonoBehaviour
             return;
         }
 
-        Transform cameraTransform = _cinemachineCamera.transform;
-
         float targetRotationAngles = 0;
         targetRotationAngles =
             Mathf.Atan2(_moveInputNormalized.x, _moveInputNormalized.y) *
-            Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
+            Mathf.Rad2Deg + _cameraTransform.eulerAngles.y;
 
-        transform.rotation = Quaternion.Euler(0f, targetRotationAngles, 0f);
+        float currentYRotation = transform.rotation.eulerAngles.y;
+        float smoothedRotationAngle = Mathf.LerpAngle(currentYRotation, targetRotationAngles, Time.deltaTime * _rotationSpeed);
 
-        Vector3 moveDirection = Quaternion.Euler(0f, targetRotationAngles, 0f) * Vector3.forward;
+        transform.rotation = Quaternion.Euler(0f, smoothedRotationAngle, 0f);
+
+        Vector3 moveDirection = Quaternion.Euler(0f, smoothedRotationAngle, 0f) * Vector3.forward;
         _rigidbody.linearVelocity = moveDirection.normalized * _moveSpeed;
-
-    }
-
-    private void RotateCamera()
-    {
-        if (_lookInput.magnitude >= 0.1f)
-        {
-            _cinemachineTargetYaw += _lookInput.x * Time.deltaTime;
-            _cinemachineTargetPitch += _lookInput.y * Time.deltaTime;
-        }
-
-        _cinemachineTargetYaw += _lookInput.x * _lookSensitivity;
-        _cinemachineTargetPitch -= _lookInput.y * _lookSensitivity;
-        _cinemachineTargetPitch = Mathf.Clamp(_cinemachineTargetPitch, _minVerticalAngle, _maxVerticalAngle);
-
-        Transform cameraTarget = _cinemachineCamera.Follow;
-        cameraTarget.rotation = Quaternion.Euler(
-            _cinemachineTargetPitch,
-            _cinemachineTargetYaw,
-            0f
-        );
     }
 }
