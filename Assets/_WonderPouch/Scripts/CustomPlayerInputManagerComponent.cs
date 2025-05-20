@@ -6,6 +6,7 @@ public class CustomPlayerInputManagerComponent : MonoBehaviour
 {
     [SerializeField] private string _defaultActionMap = "Player";
     [SerializeField] private string _npcTalkActionMap = "NpcTalk";
+    [SerializeField] private string _inventoryActionMap = "Inventory";
 
     private PlayerInput _playerInput;
 
@@ -28,15 +29,24 @@ public class CustomPlayerInputManagerComponent : MonoBehaviour
         SwitchToDefaultActionMap();
     }
 
-    public void SwitchToNpcTalkActionMap()
-    {
-        _playerInput.actions.Disable();
-        _playerInput.SwitchCurrentActionMap(_npcTalkActionMap);
-    }
-
     public void SwitchToDefaultActionMap()
     {
+        SwitchToActionMap(_defaultActionMap);
+    }
+
+    public void SwitchToInventoryActionMap()
+    {
+        SwitchToActionMap(_inventoryActionMap);
+    }
+
+    public void SwitchToNpcTalkActionMap()
+    {
+        SwitchToActionMap(_npcTalkActionMap);
+    }
+
+    public void SwitchToActionMap(string actionMapName)
+    {
         _playerInput.actions.Disable();
-        _playerInput.SwitchCurrentActionMap(_defaultActionMap);
+        _playerInput.SwitchCurrentActionMap(actionMapName);
     }
 }

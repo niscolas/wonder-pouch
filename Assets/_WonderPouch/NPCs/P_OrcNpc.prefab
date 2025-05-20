@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 2390341439878353293}
   - component: {fileID: 1106084017039617014}
   - component: {fileID: 5919318106215625588}
+  - component: {fileID: 314131935891862302}
   - component: {fileID: 3862204625988085085}
   m_Layer: 0
   m_Name: P_OrcNpc
@@ -111,6 +112,29 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.41
   m_Center: {x: 0, y: 0.36, z: 0.46}
+--- !u!136 &314131935891862302
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892871011629485107}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.23
+  m_Height: 0.74
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.37, z: 0}
 --- !u!114 &3862204625988085085
 MonoBehaviour:
   m_ObjectHideFlags: 0

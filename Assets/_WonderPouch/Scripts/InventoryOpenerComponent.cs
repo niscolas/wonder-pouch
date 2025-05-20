@@ -1,8 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class InventoryOpenerComponent : MonoBehaviour
 {
+    [Header("Events")]
+    [SerializeField] private UnityEvent _onShow;
+    [SerializeField] private UnityEvent _onHide;
+
     private InventorySystemComponent _inventorySystem;
 
     public void Setup(InventorySystemComponent inventorySystem)
@@ -20,10 +25,12 @@ public class InventoryOpenerComponent : MonoBehaviour
         if (_inventorySystem.ToggleVisibility())
         {
             Cursor.lockState = CursorLockMode.None;
+            _onShow?.Invoke();
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
+            _onHide?.Invoke();
         }
     }
 }
