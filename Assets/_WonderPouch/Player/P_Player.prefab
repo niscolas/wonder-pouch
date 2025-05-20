@@ -362,10 +362,13 @@ GameObject:
   - component: {fileID: 6215523655796453605}
   - component: {fileID: 3533519912510971752}
   - component: {fileID: 6346946474433819819}
-  - component: {fileID: 1825314972125071386}
   - component: {fileID: 2777602338562865921}
   - component: {fileID: 1977830830718190119}
+  - component: {fileID: 1825314972125071386}
   - component: {fileID: 284365559557535059}
+  - component: {fileID: 5279662386032984277}
+  - component: {fileID: 8359795768092636324}
+  - component: {fileID: 8816055161820355117}
   m_Layer: 0
   m_Name: P_Player
   m_TagString: Untagged
@@ -442,8 +445,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1825314972125071386}
-        m_TargetAssemblyTypeName: BasicThirdPersonController, Assembly-CSharp
-        m_MethodName: OnMoveInput
+        m_TargetAssemblyTypeName: BasicThirdPersonControllerComponent, Assembly-CSharp
+        m_MethodName: HandleMoveInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -458,8 +461,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1825314972125071386}
-        m_TargetAssemblyTypeName: BasicThirdPersonController, Assembly-CSharp
-        m_MethodName: OnLookInput
+        m_TargetAssemblyTypeName: BasicThirdPersonControllerComponent, Assembly-CSharp
+        m_MethodName: HandleLookInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -472,7 +475,19 @@ MonoBehaviour:
     m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
     m_ActionName: 'Player/Look[/Mouse/delta]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5279662386032984277}
+        m_TargetAssemblyTypeName: PlayerInteractionComponent, Assembly-CSharp
+        m_MethodName: HandleInteractionInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 27c5f898-bc57-4ee1-8800-db469aca5fe3
     m_ActionName: 'Player/Crouch[/Keyboard/c]'
   - m_PersistentCalls:
@@ -520,28 +535,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1825314972125071386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5662788833628635395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e272cf989fa0e78681e3fa35e6ebd29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveSpeed: 5
-  _rotationSpeed: 3
-  _groundCheckDistance: 0.2
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _cinemachineCamera: {fileID: 0}
-  _lookSensitivity: 1
-  _minVerticalAngle: -30
-  _maxVerticalAngle: 70
 --- !u!54 &2777602338562865921
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -592,6 +585,28 @@ CapsuleCollider:
   m_Height: 0.76
   m_Direction: 1
   m_Center: {x: 0, y: 0.37, z: 0}
+--- !u!114 &1825314972125071386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662788833628635395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e272cf989fa0e78681e3fa35e6ebd29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeed: 5
+  _rotationSpeed: 3
+  _groundCheckDistance: 0.2
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _cinemachineCamera: {fileID: 0}
+  _lookSensitivity: 1
+  _minVerticalAngle: -30
+  _maxVerticalAngle: 70
 --- !u!114 &284365559557535059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -605,6 +620,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementThreshold: 0.1
+--- !u!114 &5279662386032984277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662788833628635395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11de90deb235476778cea4af4ab14310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8359795768092636324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662788833628635395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4d9dc1db6e83949872ead1a36cbf0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8816055161820355117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662788833628635395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d774965782d1a1b689c1e089c2033ad8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6546913722555339550
 GameObject:
   m_ObjectHideFlags: 0

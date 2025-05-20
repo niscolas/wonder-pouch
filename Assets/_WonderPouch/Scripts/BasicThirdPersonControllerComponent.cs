@@ -38,12 +38,12 @@ public class BasicThirdPersonControllerComponent : MonoBehaviour
         RotateCamera();
     }
 
-    public void OnMoveInput(InputAction.CallbackContext context)
+    public void HandleMoveInput(InputAction.CallbackContext context)
     {
         _moveInputNormalized = context.ReadValue<Vector2>().normalized;
     }
 
-    public void OnLookInput(InputAction.CallbackContext context)
+    public void HandleLookInput(InputAction.CallbackContext context)
     {
         _lookInput = context.ReadValue<Vector2>();
     }
