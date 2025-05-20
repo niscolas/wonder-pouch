@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class InventoryPanelComponent : MonoBehaviour
 {
-    [Header("Settings")]
+    [Header("References")]
     [SerializeField] private InventorySlotWidgetComponent _slotWidgetPrefab;
     [SerializeField] private Transform _slotWidgetsParent;
+    [SerializeField] private ItemTooltipComponent _tooltip;
 
     private InventorySlotWidgetComponent[] _slotWidgets;
     private InventorySystemComponent _inventorySystem;
@@ -60,6 +61,22 @@ public class InventoryPanelComponent : MonoBehaviour
         }
 
         _inventorySystem.ConsumeOrEquipItem(slotIndex);
+    }
+
+    public void ShowTooltip(int slotIndex)
+    {
+        if (_tooltip)
+        {
+            _tooltip.Show(_inventorySystem.Slots[slotIndex], _slotWidgets[slotIndex].transform.position);
+        }
+    }
+
+    public void HideTooltip()
+    {
+        if (_tooltip)
+        {
+            _tooltip.Hide();
+        }
     }
 
     private void CreateSlots(int slotCount)

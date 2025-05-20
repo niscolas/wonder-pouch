@@ -61,23 +61,38 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // InventoryManager.Instance.ShowTooltip(_slotIndex);
+        if (!_inventoryPanel)
+        {
+            return;
+        }
+
+        _inventoryPanel.ShowTooltip(_slotIndex);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        // InventoryManager.Instance.HideTooltip();
+        if (!_inventoryPanel)
+        {
+            return;
+        }
+
+        _inventoryPanel.HideTooltip();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!_inventoryPanel)
+        {
+            return;
+        }
+
         _iconImage.transform.SetParent(_inventoryPanel.transform);
         _iconImage.color = new Color(1, 1, 1, 0.5f);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (_iconImage.sprite == null)
+        if (!_iconImage.sprite)
         {
             return;
         }
