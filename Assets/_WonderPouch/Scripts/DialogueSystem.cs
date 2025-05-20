@@ -5,7 +5,12 @@ public class DialogueSystem : MonoBehaviour
 {
     [SerializeField] private DialoguePanel _dialoguePanel;
 
-    public event Action<string[]> DialogueStarted;
+    public event Action<string> DialogueStarted;
+    public event Action<string> DialogueAdvanced;
+    public event Action DialogueEnded;
+
+    private string[] _dialogueLines;
+    private int _currentDialogueLineIndex;
 
     private void Awake()
     {
@@ -15,13 +20,32 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
-    public void StartDialogue(string[] dialogueLines)
+    public DialogueState StartOrAdvanceDialogue(string[] dialogueLines)
     {
         if (dialogueLines.IsNullOrEmpty())
         {
-            return;
+            return DialogueState.Invalid;
         }
 
-        DialogueStarted?.Invoke(dialogueLines);
+        _dialogueLines = dialogueLines;
+
+        if (_currentDialogueLineIndex == 0)
+        {
+            DialogueStarted?.Invoke(_dialogueLines[_currentDialogueLineIndex]);
+            _currentDialogueLineIndex++;
+            return DialogueState.Started;
+        }
+        else if (_currentDialogueLineIndex < _dialogueLines.Length)
+        {
+            DialogueAdvanced?.Invoke(_dialogueLines[_currentDialogueLineIndex]);
+            _currentDialogueLineIndex++;
+            return DialogueState.Advanced;
+        }
+        else
+        {
+            DialogueEnded?.Invoke();
+            _currentDialogueLineIndex = 0;
+            return DialogueState.Ended;
+        }
     }
 }

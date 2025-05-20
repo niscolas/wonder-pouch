@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class TalkableNpcComponent : MonoBehaviour
@@ -12,13 +11,13 @@ public class TalkableNpcComponent : MonoBehaviour
         _dialogueSystem = dialogueSystem;
     }
 
-    public void Talk()
+    public DialogueState Talk()
     {
         if (!_dialogueSystem)
         {
-            return;
+            return DialogueState.Invalid;
         }
 
-        _dialogueSystem.StartDialogue(_dialogueLines);
+        return _dialogueSystem.StartOrAdvanceDialogue(_dialogueLines);
     }
 }

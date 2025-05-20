@@ -11,8 +11,6 @@ public class DialoguePanel : MonoBehaviour
     [SerializeField] private UnityEvent _onDialogueEndedUnityEventPost;
 
     private DialogueSystem _dialogueSystem;
-    private string[] _dialogueLines;
-    private int _currentLineIndex;
 
     public void Setup(DialogueSystem dialogueSystem)
     {
@@ -23,6 +21,8 @@ public class DialoguePanel : MonoBehaviour
 
         _dialogueSystem = dialogueSystem;
         _dialogueSystem.DialogueStarted += OnDialogueStarted;
+        _dialogueSystem.DialogueAdvanced += OnDialogueStarted;
+        _dialogueSystem.DialogueEnded += OnDialogueEnded;
     }
 
     private void OnDestroy()
@@ -30,31 +30,30 @@ public class DialoguePanel : MonoBehaviour
         if (_dialogueSystem)
         {
             _dialogueSystem.DialogueStarted -= OnDialogueStarted;
+            _dialogueSystem.DialogueAdvanced -= OnDialogueAdvanced;
+            _dialogueSystem.DialogueEnded -= OnDialogueEnded;
         }
     }
 
-    private void OnDialogueStarted(string[] dialogueLines)
+    private void OnDialogueStarted(string dialogueLine)
     {
         _onDialogueStartedUnityEventPre?.Invoke();
 
-        _dialogueLines = dialogueLines;
-        AdvanceDialogue();
+        UpdateText(dialogueLine);
     }
 
-    public void AdvanceDialogue()
+    private void OnDialogueAdvanced(string dialogueLine)
     {
-        if (_currentLineIndex >= _dialogueLines.Length)
-        {
-            EndDialogue();
-            return;
-        }
-
-        _dialogueText.SetText(_dialogueLines[_currentLineIndex]);
-        _currentLineIndex++;
+        UpdateText(dialogueLine);
     }
 
-    private void EndDialogue()
+    private void OnDialogueEnded()
     {
         _onDialogueEndedUnityEventPost?.Invoke();
+    }
+
+    public void UpdateText(string dialogueLine)
+    {
+        _dialogueText.SetText(dialogueLine);
     }
 }

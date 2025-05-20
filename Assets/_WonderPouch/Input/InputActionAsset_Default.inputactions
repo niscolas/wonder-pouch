@@ -738,6 +738,45 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "NpcTalk",
+            "id": "ec7f7b39-635b-4587-99cb-751362518cd1",
+            "actions": [
+                {
+                    "name": "AdvanceDialog",
+                    "type": "Button",
+                    "id": "198c643f-2c7d-4549-aa55-8ae553809df9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "548b472a-6fe7-437e-b911-0855dbb37a48",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "AdvanceDialog",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6aa4846e-e826-4637-aa7c-40995f9e9179",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "AdvanceDialog",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

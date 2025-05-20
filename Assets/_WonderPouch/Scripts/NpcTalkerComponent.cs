@@ -1,7 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class NpcTalkerComponent : MonoBehaviour, InteractionHandler
 {
+    [Header("Events")]
+    [SerializeField] private UnityEvent _onDialogueStartedUnityEvent;
+    [SerializeField] private UnityEvent _onDialogueEndedUnityEvent;
+
     private TalkableNpcComponent _nearestTalkableNpc;
 
     private void OnTriggerEnter(Collider other)
@@ -31,7 +36,25 @@ public class NpcTalkerComponent : MonoBehaviour, InteractionHandler
             return false;
         }
 
-        _nearestTalkableNpc.Talk();
+        DialogueState dialogueState = _nearestTalkableNpc.Talk();
+        switch (dialogueState)
+        {
+            case DialogueState.Started:
+                _onDialogueStartedUnityEvent?.Invoke();
+                break;
+
+            case DialogueState.Advanced:
+                return true;
+
+            case DialogueState.Ended:
+                _onDialogueEndedUnityEvent?.Invoke();
+                break;
+
+            case DialogueState.Invalid:
+            default:
+                break;
+        }
+
         return true;
     }
 }

@@ -369,6 +369,7 @@ GameObject:
   - component: {fileID: 5279662386032984277}
   - component: {fileID: 8359795768092636324}
   - component: {fileID: 8816055161820355117}
+  - component: {fileID: 4424765539660422724}
   m_Layer: 0
   m_Name: P_Player
   m_TagString: Untagged
@@ -530,6 +531,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5279662386032984277}
+        m_TargetAssemblyTypeName: PlayerInteractionComponent, Assembly-CSharp
+        m_MethodName: HandleInteractionInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 198c643f-2c7d-4549-aa55-8ae553809df9
+    m_ActionName: 'NpcTalk/AdvanceDialog[/Keyboard/e]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -656,6 +673,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d774965782d1a1b689c1e089c2033ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onDialogueStartedUnityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4424765539660422724}
+        m_TargetAssemblyTypeName: CustomPlayerInputManagerComponent, Assembly-CSharp
+        m_MethodName: SwitchToNpcTalkActionMap
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: NpcTalk
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onDialogueEndedUnityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4424765539660422724}
+        m_TargetAssemblyTypeName: CustomPlayerInputManagerComponent, Assembly-CSharp
+        m_MethodName: SwitchToDefaultActionMap
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Player
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4424765539660422724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662788833628635395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa3812bff5a8ba0488d9c7bb9ecc53f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultActionMap: Player
+  _npcTalkActionMap: NpcTalk
 --- !u!1 &6546913722555339550
 GameObject:
   m_ObjectHideFlags: 0
