@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 6140959587694778743}
   - component: {fileID: 1563740326018723995}
   - component: {fileID: 8912502675797090627}
-  - component: {fileID: 5841507984059434361}
+  - component: {fileID: 5742983102686006113}
   m_Layer: 5
   m_Name: P_InventorySlotWidget
   m_TagString: Untagged
@@ -149,7 +149,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1563740326018723995
 MonoBehaviour:
@@ -166,6 +166,7 @@ MonoBehaviour:
   _iconImage: {fileID: 4974658724309522434}
   _stackText: {fileID: 9052402662651211895}
   _slotIndex: 0
+  _isEquipmentSlot: 0
 --- !u!222 &8912502675797090627
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -174,7 +175,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2644947853913397990}
   m_CullTransparentMesh: 1
---- !u!114 &5841507984059434361
+--- !u!114 &5742983102686006113
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

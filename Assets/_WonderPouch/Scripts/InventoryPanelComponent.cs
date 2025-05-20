@@ -1,38 +1,48 @@
+using System;
 using UnityEngine;
 
 public class InventoryPanelComponent : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private InventorySlotWidgetComponent _slotWidgetPrefab;
-    [SerializeField] private Transform _slotWidgetsParent;
     [SerializeField] private ItemTooltipComponent _tooltip;
+    [SerializeField] private Transform _inventorySlotWidgetsParent;
+    [SerializeField] private Transform _equipmentSlotWidgetsParent;
 
-    private InventorySlotWidgetComponent[] _slotWidgets;
+    [Header("Debug")]
+    [SerializeField] private InventorySlotWidgetComponent[] _inventorySlotWidgets;
+    [SerializeField] private InventorySlotWidgetComponent[] _equipmentSlotWidgets;
+
     private InventorySystemComponent _inventorySystem;
 
-    public void Setup(InventorySystemComponent inventorySystem, int slotCount)
+    public void Setup(
+        InventorySystemComponent inventorySystem,
+        int inventorySlotCount,
+        EquipmentType[] equipmentSlotTypes)
     {
         if (!inventorySystem)
         {
             return;
         }
 
-        if (!_slotWidgetsParent)
+        if (!_inventorySlotWidgetsParent)
         {
-            _slotWidgetsParent = transform;
+            _inventorySlotWidgetsParent = transform;
         }
 
         _inventorySystem = inventorySystem;
-        _inventorySystem.SlotUpdated += OnSlotUpdated;
+        _inventorySystem.InventorySlotUpdated += OnInventorySlotUpdated;
+        _inventorySystem.EquipmentSlotUpdated += OnEquipmentSlotUpdated;
 
-        CreateSlots(slotCount);
+        SetupSlotWidgets(inventorySlotCount, equipmentSlotTypes);
     }
 
     private void OnDestroy()
     {
         if (_inventorySystem)
         {
-            _inventorySystem.SlotUpdated -= OnSlotUpdated;
+            _inventorySystem.InventorySlotUpdated -= OnInventorySlotUpdated;
+            _inventorySystem.EquipmentSlotUpdated -= OnEquipmentSlotUpdated;
         }
     }
 
@@ -44,8 +54,8 @@ public class InventoryPanelComponent : MonoBehaviour
         if (!_inventorySystem ||
             !draggedSlotWidget ||
             fromSlotIndex == toSlotIndex ||
-            !CheckIsValidSlotWidgetIndex(fromSlotIndex) ||
-            !CheckIsValidSlotWidgetIndex(toSlotIndex))
+            !CheckIsValidInventorySlotWidgetIndex(fromSlotIndex) ||
+            !CheckIsValidInventorySlotWidgetIndex(toSlotIndex))
         {
             return;
         }
@@ -63,11 +73,21 @@ public class InventoryPanelComponent : MonoBehaviour
         _inventorySystem.ConsumeOrEquipItem(slotIndex);
     }
 
+    public void UnequipItem(int slotIndex)
+    {
+        if (!_inventorySystem)
+        {
+            return;
+        }
+
+        _inventorySystem.UnequipItem(slotIndex);
+    }
+
     public void ShowTooltip(int slotIndex)
     {
         if (_tooltip)
         {
-            _tooltip.Show(_inventorySystem.Slots[slotIndex], _slotWidgets[slotIndex].transform.position);
+            _tooltip.Show(_inventorySystem.InventorySlots[slotIndex], _inventorySlotWidgets[slotIndex].transform.position);
         }
     }
 
@@ -79,34 +99,57 @@ public class InventoryPanelComponent : MonoBehaviour
         }
     }
 
-    private void CreateSlots(int slotCount)
+    private void SetupSlotWidgets(int inventorySlotCount, EquipmentType[] equipmentSlotTypes)
     {
         if (!_slotWidgetPrefab)
         {
             return;
         }
 
-        _slotWidgets = new InventorySlotWidgetComponent[slotCount];
-        for (int i = 0; i < slotCount; i++)
+        _inventorySlotWidgets = new InventorySlotWidgetComponent[inventorySlotCount];
+        for (int i = 0; i < inventorySlotCount; i++)
         {
-            _slotWidgets[i] = Instantiate(_slotWidgetPrefab, _slotWidgetsParent);
-            _slotWidgets[i].Setup(this, i);
-            _slotWidgets[i].SetItem(_inventorySystem.Slots[i]);
+            _inventorySlotWidgets[i] = Instantiate(_slotWidgetPrefab, _inventorySlotWidgetsParent);
+            _inventorySlotWidgets[i].Setup(this, i);
+            _inventorySlotWidgets[i].SetInventoryItem(_inventorySystem.InventorySlots[i]);
+        }
+
+        _equipmentSlotWidgets = new InventorySlotWidgetComponent[equipmentSlotTypes.Length];
+        for (int i = 0; i < equipmentSlotTypes.Length; i++)
+        {
+            _equipmentSlotWidgets[i] = Instantiate(_slotWidgetPrefab, _equipmentSlotWidgetsParent);
+            _equipmentSlotWidgets[i].Setup(this, i);
+            _equipmentSlotWidgets[i].SetEquipmentItem(_inventorySystem.EquipmentSlots[i]);
         }
     }
 
-    private void OnSlotUpdated(int slotIndex, InventoryItem newItem)
+    private void OnInventorySlotUpdated(int slotIndex, InventoryItem newItem)
     {
-        if (!CheckIsValidSlotWidgetIndex(slotIndex))
+        if (!CheckIsValidInventorySlotWidgetIndex(slotIndex))
         {
             return;
         }
 
-        _slotWidgets[slotIndex].SetItem(newItem);
+        _inventorySlotWidgets[slotIndex].SetInventoryItem(newItem);
     }
 
-    private bool CheckIsValidSlotWidgetIndex(int index)
+    private void OnEquipmentSlotUpdated(int slotIndex, EquipmentItem newItem)
     {
-        return _slotWidgets.CheckIsValidIndex(index);
+        if (!CheckIsValidEquipmentSlotWidgetIndex(slotIndex))
+        {
+            return;
+        }
+
+        _equipmentSlotWidgets[slotIndex].SetEquipmentItem(newItem);
+    }
+
+    private bool CheckIsValidInventorySlotWidgetIndex(int index)
+    {
+        return _inventorySlotWidgets.CheckIsValidIndex(index);
+    }
+
+    private bool CheckIsValidEquipmentSlotWidgetIndex(int index)
+    {
+        return _equipmentSlotWidgets.CheckIsValidIndex(index);
     }
 }

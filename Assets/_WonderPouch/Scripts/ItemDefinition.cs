@@ -14,6 +14,7 @@ public class ItemDefinition : ScriptableObject
 
     [Header("Usage")]
     [SerializeField] private bool _isEquippable;
+    [SerializeField] private EquipmentType _equipmentType;
     [SerializeField] private bool _isConsumable;
 
     public string ItemName { get => _itemName; }
@@ -21,5 +22,6 @@ public class ItemDefinition : ScriptableObject
     public string Description { get => _description; }
     public int MaxStack { get => _maxStack; }
     public bool IsConsumable { get => _isConsumable; }
+    public EquipmentType EquipmentType { get => _equipmentType; }
     public bool IsEquippable { get => _isEquippable; }
 }

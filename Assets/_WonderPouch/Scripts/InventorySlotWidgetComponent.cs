@@ -17,6 +17,7 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
 
     [Header("Debug")]
     [SerializeField] private int _slotIndex;
+    [SerializeField] private bool _isEquipmentSlot;
 
     private InventoryPanelComponent _inventoryPanel;
     private Transform _iconImageInitialParent;
@@ -30,16 +31,9 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
         _iconImageInitialParent = _iconImage.transform.parent;
     }
 
-    public void SetItem(InventoryItem item)
+    public void SetInventoryItem(InventoryItem item)
     {
-        if (!item.definition)
-        {
-            ClearSlot();
-            return;
-        }
-
-        _iconImage.sprite = item.definition.Icon;
-        _iconImage.enabled = true;
+        CommonSetItemLogic(item.definition);
 
         if (item.currentStack > 1)
         {
@@ -50,6 +44,16 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
         {
             _stackText.enabled = false;
         }
+
+        _isEquipmentSlot = false;
+    }
+
+    public void SetEquipmentItem(EquipmentItem item)
+    {
+        CommonSetItemLogic(item.definition);
+
+        _stackText.enabled = false;
+        _isEquipmentSlot = true;
     }
 
     public void ClearSlot()
@@ -81,7 +85,7 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!_inventoryPanel)
+        if (!_inventoryPanel || _isEquipmentSlot)
         {
             return;
         }
@@ -92,7 +96,7 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!_iconImage.sprite)
+        if (!_iconImage.sprite || _isEquipmentSlot)
         {
             return;
         }
@@ -102,6 +106,11 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (_isEquipmentSlot)
+        {
+            return;
+        }
+
         GameObject droppedOn = eventData.pointerCurrentRaycast.gameObject;
         int targetSlotIndex = -1;
 
@@ -123,9 +132,30 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right)
+        if (eventData.button != PointerEventData.InputButton.Right)
+        {
+            return;
+        }
+
+        if (!_isEquipmentSlot)
         {
             _inventoryPanel.ConsumeOrEquipItem(_slotIndex);
         }
+        else
+        {
+            _inventoryPanel.UnequipItem(_slotIndex);
+        }
+    }
+
+    private void CommonSetItemLogic(ItemDefinition itemDefinition)
+    {
+        if (!itemDefinition)
+        {
+            ClearSlot();
+            return;
+        }
+
+        _iconImage.sprite = itemDefinition.Icon;
+        _iconImage.enabled = true;
     }
 }

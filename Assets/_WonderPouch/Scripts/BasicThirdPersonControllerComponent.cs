@@ -77,7 +77,6 @@ public class BasicThirdPersonControllerComponent : MonoBehaviour
 
         Vector3 moveDirection = Quaternion.Euler(0f, targetRotationAngles, 0f) * Vector3.forward;
         _rigidbody.linearVelocity = moveDirection.normalized * _moveSpeed;
-        Debug.Log($"{_moveInputNormalized} .. {_rigidbody.linearVelocity}");
 
     }
 
