@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemName: Shovel
   _icon: {fileID: 21300000, guid: d69873ca7a75339f69bf81be04be5fec, type: 3}
-  _description: 
+  _description: "Dirt-crusted. Perfect for digging graves\u2026 or treasures"
   _prefab: {fileID: 8312641101182995907, guid: 9ba147839af00c41395dab571a663c16, type: 3}
   _maxStack: 1
   _isEquippable: 1

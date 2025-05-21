@@ -6,6 +6,9 @@ public class ItemTooltipComponent : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private Vector3 _displayOffset = new Vector3(100, 0, 0);
+    [SerializeField] private Color _equipmentTextColor = Color.blue;
+    [SerializeField] private Color _consumableTextColor = Color.green;
+    [SerializeField] private Color _miscTextColor = Color.gray;
 
     [Header("References")]
     [SerializeField] private TMP_Text _itemNameText;
@@ -33,17 +36,17 @@ public class ItemTooltipComponent : MonoBehaviour
         if (itemDefinition.IsEquippable)
         {
             _itemTypeText.text = "Equipment";
-            _itemTypeText.color = Color.blue;
+            _itemTypeText.color = _equipmentTextColor;
         }
         else if (itemDefinition.IsConsumable)
         {
             _itemTypeText.text = "Consumable";
-            _itemTypeText.color = Color.green;
+            _itemTypeText.color = _consumableTextColor;
         }
         else
         {
             _itemTypeText.text = "Misc";
-            _itemTypeText.color = Color.gray;
+            _itemTypeText.color = _miscTextColor;
         }
     }
 

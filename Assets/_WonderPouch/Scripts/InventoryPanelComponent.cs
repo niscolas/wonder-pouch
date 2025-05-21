@@ -1,11 +1,17 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using DG.Tweening;
 
 public class InventoryPanelComponent : MonoBehaviour
 {
+    [Header("Settings")]
+    [SerializeField] private float _fadeDuration = 0.3f;
+    [SerializeField] private Ease _fadeInEase = Ease.InSine;
+    [SerializeField] private Ease _fadeOutEase = Ease.OutSine;
+
     [Header("References")]
-    [SerializeField] private GameObject _visualRoot;
+    [SerializeField] private CanvasGroup _visualRoot;
     [SerializeField] private InventorySlotWidgetComponent _slotWidgetPrefab;
     [SerializeField] private ItemTooltipComponent _tooltip;
     [SerializeField] private Transform _inventorySlotWidgetsParent;
@@ -32,11 +38,6 @@ public class InventoryPanelComponent : MonoBehaviour
             return;
         }
 
-        if (!_visualRoot)
-        {
-            _visualRoot = gameObject;
-        }
-
         if (!_inventorySlotWidgetsParent)
         {
             _inventorySlotWidgetsParent = transform;
@@ -60,7 +61,9 @@ public class InventoryPanelComponent : MonoBehaviour
 
     public bool Toggle()
     {
-        if (IsVisible)
+        bool isVisible = IsVisible;
+        bool targetVisibility = !isVisible;
+        if (isVisible)
         {
             Hide();
         }
@@ -69,18 +72,30 @@ public class InventoryPanelComponent : MonoBehaviour
             Show();
         }
 
-        return IsVisible;
+        return targetVisibility;
     }
 
     public void Show()
     {
         _onShowPre?.Invoke();
-        _visualRoot.SetActive(true);
+
+        _visualRoot.gameObject.SetActive(true);
+        _visualRoot
+            .DOFade(1, _fadeDuration)
+            .From(0)
+            .SetEase(_fadeInEase);
     }
 
     public void Hide()
     {
-        _visualRoot.SetActive(false);
+        _visualRoot
+            .DOFade(0, _fadeDuration)
+            .SetEase(_fadeOutEase)
+            .OnComplete(() =>
+            {
+                _visualRoot.gameObject.SetActive(false);
+            });
+
         _onHidePost?.Invoke();
     }
 

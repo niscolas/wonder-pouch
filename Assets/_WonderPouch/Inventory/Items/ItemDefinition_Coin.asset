@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemName: Coin
   _icon: {fileID: 21300000, guid: 0523d1a1822ede56cb75a64d1747a1b9, type: 3}
-  _description: 
+  _description: 'Heads: You win. Tails: The universe collapses'
   _prefab: {fileID: 8312641101182995907, guid: 8c1e031d0bb9481f79c068010c612749, type: 3}
   _maxStack: 99
   _isEquippable: 0

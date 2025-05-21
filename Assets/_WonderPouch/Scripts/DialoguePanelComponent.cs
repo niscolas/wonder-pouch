@@ -1,12 +1,19 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using DG.Tweening;
 
 public class DialoguePanelComponent : MonoBehaviour
 {
     [Header("Settings")]
+    [SerializeField] private float _fadeDuration = 0.3f;
+    [SerializeField] private Ease _fadeInEase = Ease.InSine;
+    [SerializeField] private Ease _fadeOutEase = Ease.OutSine;
+
+    [Header("References")]
     [SerializeField] private TMP_Text _npcNameText;
     [SerializeField] private TMP_Text _dialogueText;
+    [SerializeField] private CanvasGroup _visualRoot;
 
     [Header("Events")]
     [SerializeField] private UnityEvent _onDialogueStartedUnityEventPre;
@@ -41,6 +48,12 @@ public class DialoguePanelComponent : MonoBehaviour
     {
         _onDialogueStartedUnityEventPre?.Invoke();
 
+        _visualRoot.gameObject.SetActive(true);
+        _visualRoot
+            .DOFade(1, _fadeDuration)
+            .From(0)
+            .SetEase(_fadeInEase);
+
         _npcNameText.SetText(npcName);
         UpdateText(dialogueLine);
     }
@@ -52,6 +65,14 @@ public class DialoguePanelComponent : MonoBehaviour
 
     private void OnDialogueEnded()
     {
+        _visualRoot
+            .DOFade(0, _fadeDuration)
+            .SetEase(_fadeOutEase)
+            .OnComplete(() =>
+            {
+                _visualRoot.gameObject.SetActive(false);
+            });
+
         _onDialogueEndedUnityEventPost?.Invoke();
     }
 

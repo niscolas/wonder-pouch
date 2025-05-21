@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemName: Burger
   _icon: {fileID: 21300000, guid: af2ed22de9149a9e0ba84dab5f3b6b14, type: 3}
-  _description: 
+  _description: Suspiciously pristine. The lettuce is weirdly green
   _prefab: {fileID: 8312641101182995907, guid: 9bf8284929acc5d139fd9d36755414ac, type: 3}
   _maxStack: 20
   _isEquippable: 0

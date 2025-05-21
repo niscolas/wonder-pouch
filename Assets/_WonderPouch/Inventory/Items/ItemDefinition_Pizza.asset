@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemName: Pizza
   _icon: {fileID: 21300000, guid: 76f316894926e04199d7327ec06a7506, type: 3}
-  _description: 
+  _description: A greasy, half-eaten slice. Still warm, somehow
   _prefab: {fileID: 8312641101182995907, guid: bf9c72bc8330221d685a58c3e4f95f73, type: 3}
   _maxStack: 5
   _isEquippable: 0

@@ -2156,6 +2156,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayOffset: {x: 150, y: -70, z: 0}
+  _equipmentTextColor: {r: 0, g: 0.62334704, b: 1, a: 1}
+  _consumableTextColor: {r: 0, g: 0.6886792, b: 0.2295362, a: 1}
+  _miscTextColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
   _itemNameText: {fileID: 346213763}
   _itemDescriptionText: {fileID: 706394295}
   _itemTypeText: {fileID: 1227566926}
@@ -3799,7 +3802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9e7cc83faf2d8c1a92c199c77576c68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clearSave: 1
+  _clearSave: 0
   _inventorySize: 16
   _equipmentSlotTypes: 0000000001000000020000000300000004000000
   _inventoryPanel: {fileID: 716294715}
@@ -4960,6 +4963,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 656581484}
+  - component: {fileID: 656581485}
   m_Layer: 5
   m_Name: Root
   m_TagString: Untagged
@@ -4990,6 +4994,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &656581485
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656581483}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &675155529
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5393,7 +5409,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 20.500015, y: 18.906998}
-  m_SizeDelta: {x: 294.5, y: 49.29}
+  m_SizeDelta: {x: 270.714, y: 49.29}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &706394295
 MonoBehaviour:
@@ -5442,8 +5458,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 13
+  m_fontSizeBase: 13
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5548,7 +5564,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 160519b3c99e975de82c134c2579c91e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _visualRoot: {fileID: 656581483}
+  _fadeDuration: 0.3
+  _fadeInEase: 2
+  _fadeOutEase: 3
+  _visualRoot: {fileID: 656581485}
   _slotWidgetPrefab: {fileID: 1563740326018723995, guid: 053325f8de184f9bfb0f37e39f879678, type: 3}
   _tooltip: {fileID: 288364980}
   _inventorySlotWidgetsParent: {fileID: 2039697666}
@@ -10670,6 +10689,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1356664773}
+  - component: {fileID: 1356664774}
   m_Layer: 5
   m_Name: Root
   m_TagString: Untagged
@@ -10699,6 +10719,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1356664774
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356664772}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1365329460
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10810,38 +10842,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e9ca672b15f49b4871a008dbeef857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fadeDuration: 0.3
+  _fadeInEase: 2
+  _fadeOutEase: 3
   _npcNameText: {fileID: 1797214287}
   _dialogueText: {fileID: 1552335846}
+  _visualRoot: {fileID: 1356664774}
   _onDialogueStartedUnityEventPre:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1356664772}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
   _onDialogueEndedUnityEventPost:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1356664772}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1368958867
 GameObject:
   m_ObjectHideFlags: 0
