@@ -1,6 +1,8 @@
 # 🔮 Wonder Pouch  
 
-> 🧙 A cute and simple Unity prototype featuring inventory management and RPG-style interactions  
+> 🧙 A cute and simple Unity prototype featuring inventory management and RPG-style interactions
+
+https://github.com/user-attachments/assets/5d4d5db9-19a8-4729-97ad-da868c19494c
 
 ## ✨ Features  
 
