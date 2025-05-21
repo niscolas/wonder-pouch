@@ -5,7 +5,7 @@ public class DialogueSystemComponent : MonoBehaviour
 {
     [SerializeField] private DialoguePanelComponent _dialoguePanel;
 
-    public event Action<string> DialogueStarted;
+    public event Action<string, string> DialogueStarted;
     public event Action<string> DialogueAdvanced;
     public event Action DialogueEnded;
 
@@ -20,7 +20,7 @@ public class DialogueSystemComponent : MonoBehaviour
         }
     }
 
-    public DialogueState StartOrAdvanceDialogue(string[] dialogueLines)
+    public DialogueState StartOrAdvanceDialogue(string npcName, string[] dialogueLines)
     {
         if (dialogueLines.IsNullOrEmpty())
         {
@@ -31,7 +31,7 @@ public class DialogueSystemComponent : MonoBehaviour
 
         if (_currentDialogueLineIndex == 0)
         {
-            DialogueStarted?.Invoke(_dialogueLines[_currentDialogueLineIndex]);
+            DialogueStarted?.Invoke(npcName, _dialogueLines[_currentDialogueLineIndex]);
             _currentDialogueLineIndex++;
             return DialogueState.Started;
         }

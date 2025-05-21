@@ -4,6 +4,8 @@ using UnityEngine.Events;
 
 public class DialoguePanelComponent : MonoBehaviour
 {
+    [Header("Settings")]
+    [SerializeField] private TMP_Text _npcNameText;
     [SerializeField] private TMP_Text _dialogueText;
 
     [Header("Events")]
@@ -21,7 +23,7 @@ public class DialoguePanelComponent : MonoBehaviour
 
         _dialogueSystem = dialogueSystem;
         _dialogueSystem.DialogueStarted += OnDialogueStarted;
-        _dialogueSystem.DialogueAdvanced += OnDialogueStarted;
+        _dialogueSystem.DialogueAdvanced += OnDialogueAdvanced;
         _dialogueSystem.DialogueEnded += OnDialogueEnded;
     }
 
@@ -35,10 +37,11 @@ public class DialoguePanelComponent : MonoBehaviour
         }
     }
 
-    private void OnDialogueStarted(string dialogueLine)
+    private void OnDialogueStarted(string npcName, string dialogueLine)
     {
         _onDialogueStartedUnityEventPre?.Invoke();
 
+        _npcNameText.SetText(npcName);
         UpdateText(dialogueLine);
     }
 
