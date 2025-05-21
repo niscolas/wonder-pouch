@@ -1,8 +1,12 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Events;
 
 public class ItemPickerComponent : MonoBehaviour, InteractionHandler
 {
+    [Header("Events")]
+    [SerializeField] private UnityEvent _onPickedUnityEvent;
+
     private PickableItemComponent _nearestPickableItem;
     private InventorySystemComponent _inventorySystem;
 
@@ -42,6 +46,7 @@ public class ItemPickerComponent : MonoBehaviour, InteractionHandler
         {
             _nearestPickableItem.transform.DOKill(true);
             Destroy(_nearestPickableItem.gameObject);
+            _onPickedUnityEvent?.Invoke();
         }
 
         return true;

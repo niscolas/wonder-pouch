@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -14,6 +15,11 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
     [Header("References")]
     [SerializeField] private Image _iconImage;
     [SerializeField] private TMP_Text _stackText;
+
+    [Header("Events")]
+    [SerializeField] private UnityEvent _onBeginDragUnityEvent;
+    [SerializeField] private UnityEvent _onEndDragUnityEvent;
+    [SerializeField] private UnityEvent _onUseUnityEvent;
 
     [Header("Debug")]
     [SerializeField] private int _slotIndex;
@@ -92,6 +98,7 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
 
         _iconImage.transform.SetParent(_inventoryPanel.transform);
         _iconImage.color = new Color(1, 1, 1, 0.5f);
+        _onBeginDragUnityEvent?.Invoke();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -128,6 +135,7 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
         _iconImage.transform.SetParent(_iconImageInitialParent);
         _iconImage.transform.localPosition = Vector3.zero;
         _iconImage.color = Color.white;
+        _onEndDragUnityEvent?.Invoke();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -145,6 +153,8 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
         {
             _inventoryPanel.UnequipItem(_slotIndex);
         }
+
+        _onUseUnityEvent?.Invoke();
     }
 
     private void CommonSetItemLogic(ItemDefinition itemDefinition)

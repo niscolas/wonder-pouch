@@ -5,6 +5,7 @@ public class NpcTalkerComponent : MonoBehaviour, InteractionHandler
 {
     [Header("Events")]
     [SerializeField] private UnityEvent _onDialogueStartedUnityEvent;
+    [SerializeField] private UnityEvent _onDialogueAdvancedUnityEvent;
     [SerializeField] private UnityEvent _onDialogueEndedUnityEvent;
 
     private TalkableNpcComponent _nearestTalkableNpc;
@@ -44,6 +45,7 @@ public class NpcTalkerComponent : MonoBehaviour, InteractionHandler
                 break;
 
             case DialogueState.Advanced:
+                _onDialogueAdvancedUnityEvent?.Invoke();
                 return true;
 
             case DialogueState.Ended:

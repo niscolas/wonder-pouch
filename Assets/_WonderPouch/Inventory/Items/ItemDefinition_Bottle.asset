@@ -17,6 +17,6 @@ MonoBehaviour:
   _description: 
   _prefab: {fileID: 8312641101182995907, guid: 43d8ef4136e2bf5f79055400a04f3874, type: 3}
   _maxStack: 10
-  _isEquippable: 1
+  _isEquippable: 0
   _equipmentType: 2
-  _isConsumable: 0
+  _isConsumable: 1
