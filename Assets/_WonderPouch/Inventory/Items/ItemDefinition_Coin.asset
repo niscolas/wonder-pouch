@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: ItemDefinition_Coin
   m_EditorClassIdentifier: 
   _itemName: Coin
-  _icon: {fileID: 1356118597, guid: 20a1974979515a347a694a0c7cf790d7, type: 3}
-  _tooltipText: 
+  _icon: {fileID: 21300000, guid: 0523d1a1822ede56cb75a64d1747a1b9, type: 3}
+  _description: 
   _prefab: {fileID: 8312641101182995907, guid: 8c1e031d0bb9481f79c068010c612749, type: 3}
   _maxStack: 99
   _isEquippable: 0
+  _equipmentType: 0
   _isConsumable: 0
