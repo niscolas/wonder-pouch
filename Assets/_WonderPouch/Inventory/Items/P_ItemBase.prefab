@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 2599682311363573404}
   - component: {fileID: 3396006793071957862}
   - component: {fileID: 7352005273077768089}
+  - component: {fileID: -8077509843484998256}
   m_Layer: 0
   m_Name: P_ItemBase
   m_TagString: Untagged
@@ -156,3 +157,22 @@ MonoBehaviour:
   _itemData:
     definition: {fileID: 11400000, guid: ec4dc6e8a2a9331028492dc70eae72fb, type: 2}
     currentStack: 1
+  _isTweeningEnabled: 0
+  _floatOffset: {x: 0, y: 0.5, z: 0}
+  _floatDuration: 1
+  _floatEase: 4
+  _rotationDuration: 1
+  _rotationEase: 4
+--- !u!114 &-8077509843484998256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832320900693342155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5c18f1d2e849d54bc19b6f7bf5bbe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _outlineMaterial: {fileID: 2100000, guid: 61702b6b99f3737019b153a58723396a, type: 2}

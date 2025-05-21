@@ -239,9 +239,10 @@ public class InventorySystemComponent : MonoBehaviour
 
             _equipmentSlots[i].definition = item.definition;
             NotifyEquipmentSlotUpdated(i);
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     public bool CheckIsStackable(InventoryItem item)

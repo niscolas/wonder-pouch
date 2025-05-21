@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 5919318106215625588}
   - component: {fileID: 314131935891862302}
   - component: {fileID: 3862204625988085085}
+  - component: {fileID: -2915730947490046506}
   m_Layer: 0
   m_Name: P_OrcNpc
   m_TagString: Untagged
@@ -150,6 +151,19 @@ MonoBehaviour:
   _dialogueLines:
   - Hi!
   - Took an arrow in the knee!
+--- !u!114 &-2915730947490046506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892871011629485107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5c18f1d2e849d54bc19b6f7bf5bbe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _outlineMaterial: {fileID: 2100000, guid: 61702b6b99f3737019b153a58723396a, type: 2}
 --- !u!1 &1990169748236035660
 GameObject:
   m_ObjectHideFlags: 0

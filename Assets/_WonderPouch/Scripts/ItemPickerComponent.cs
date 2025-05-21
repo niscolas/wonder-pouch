@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 public class ItemPickerComponent : MonoBehaviour, InteractionHandler
 {
@@ -39,6 +40,7 @@ public class ItemPickerComponent : MonoBehaviour, InteractionHandler
 
         if (_inventorySystem.AddItem(_nearestPickableItem.ItemData))
         {
+            _nearestPickableItem.transform.DOKill(true);
             Destroy(_nearestPickableItem.gameObject);
         }
 

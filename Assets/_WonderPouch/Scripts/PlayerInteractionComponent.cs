@@ -30,4 +30,24 @@ public class PlayerInteractionComponent : MonoBehaviour
             }
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.TryGetComponent(out InteractionIndicatorComponent interactionIndicator))
+        {
+            return;
+        }
+
+        interactionIndicator.ShowInteractionIndication();
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.TryGetComponent(out InteractionIndicatorComponent interactionIndicator))
+        {
+            return;
+        }
+
+        interactionIndicator.HideInteractionIndication();
+    }
 }
