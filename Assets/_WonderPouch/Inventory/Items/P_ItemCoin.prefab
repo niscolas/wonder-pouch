@@ -82,7 +82,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7352005273077768089, guid: 06550a1d33c9355d6b21393dacc7896e, type: 3}
       propertyPath: _rotationDuration
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7352005273077768089, guid: 06550a1d33c9355d6b21393dacc7896e, type: 3}
       propertyPath: _isTweeningEnabled
