@@ -644,6 +644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementThreshold: 0.1
+  _startSitting: 0
 --- !u!114 &5279662386032984277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -674,6 +675,18 @@ MonoBehaviour:
       - m_Target: {fileID: 11400000, guid: 9916dd4da86e00a8a926ad6cd5c85ee8, type: 2}
         m_TargetAssemblyTypeName: SoundEffectDefinition, Assembly-CSharp
         m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 284365559557535059}
+        m_TargetAssemblyTypeName: BasicKenneyCharacterAnimationComponent, Assembly-CSharp
+        m_MethodName: TriggerInteract
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -734,6 +747,18 @@ MonoBehaviour:
           m_StringArgument: NpcTalk
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 284365559557535059}
+        m_TargetAssemblyTypeName: BasicKenneyCharacterAnimationComponent, Assembly-CSharp
+        m_MethodName: SetIsTalking
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: NpcTalk
+          m_BoolArgument: 1
+        m_CallState: 2
   _onDialogueAdvancedUnityEvent:
     m_PersistentCalls:
       m_Calls:
@@ -768,6 +793,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: CustomPlayerInputManagerComponent, Assembly-CSharp
         m_MethodName: SwitchToDefaultActionMap
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Player
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 284365559557535059}
+        m_TargetAssemblyTypeName: BasicKenneyCharacterAnimationComponent, Assembly-CSharp
+        m_MethodName: SetIsTalking
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

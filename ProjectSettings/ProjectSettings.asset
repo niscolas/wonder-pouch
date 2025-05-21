@@ -14,7 +14,7 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: DefaultCompany
   productName: Wonder Pouch
-  defaultCursor: {fileID: 2800000, guid: 0b00608173c7811e3b38f1bc6b4a16da, type: 3}
+  defaultCursor: {fileID: 2800000, guid: 13ced1f5fc385f9689965cec7fb8c788, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1

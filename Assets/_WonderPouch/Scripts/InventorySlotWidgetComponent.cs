@@ -15,6 +15,7 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
     [Header("References")]
     [SerializeField] private Image _iconImage;
     [SerializeField] private TMP_Text _stackText;
+    [SerializeField] private TMP_Text _equipmentTypeText;
 
     [Header("Events")]
     [SerializeField] private UnityEvent _onBeginDragUnityEvent;
@@ -59,6 +60,8 @@ public class InventorySlotWidgetComponent : MonoBehaviour,
         CommonSetItemLogic(item.definition);
 
         _stackText.enabled = false;
+        _equipmentTypeText.gameObject.SetActive(true);
+        _equipmentTypeText.SetText(item.type.ToString());
         _isEquipmentSlot = true;
     }
 
