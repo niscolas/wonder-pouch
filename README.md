@@ -2,7 +2,7 @@
 
 > 🧙 A cute and simple Unity prototype featuring inventory management and RPG-style interactions
 
-https://github.com/user-attachments/assets/5d4d5db9-19a8-4729-97ad-da868c19494c
+https://github.com/user-attachments/assets/acba8f1d-1e4f-45ca-bc74-de8553805fed
 
 ## ✨ Features  
 
